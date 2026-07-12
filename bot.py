@@ -11,7 +11,7 @@ from telegram.error import TelegramError
 
 # --- Configuration --- #
 TELEGRAM_BOT_TOKEN = "8615153925:AAGuW_4duD8EMEl5ayShNrr2C13yHR7r0w"  # Replace with your actual bot token
-TELEGRAM_CHAT_ID = "YOUR_CHAT_ID"  # IMPORTANT: Replace with your actual Telegram Chat ID. You can get it from @userinfobot on Telegram.
+TELEGRAM_CHAT_ID = "8044891553"  # Updated with user's chat ID
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -142,26 +142,26 @@ class TradingBot:
             if latest_candle.is_bullish() and prev_candle.is_bearish() and \
                latest_candle.close > prev_candle.open and latest_candle.open < prev_candle.close:
                 logging.info("Detected Bullish Engulfing pattern.")
-                return f"BUY Signal (Bullish Engulfing) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+                return f"BUY Signal (Bullish Engulfing) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
             # Bearish Engulfing
             elif latest_candle.is_bearish() and prev_candle.is_bullish() and \
                  latest_candle.close < prev_candle.open and latest_candle.open > prev_candle.close:
                 logging.info("Detected Bearish Engulfing pattern.")
-                return f"SELL Signal (Bearish Engulfing) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+                return f"SELL Signal (Bearish Engulfing) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
             # Hammer (Bullish Reversal)
             elif len(self.candlestick_history) >= 3 and prev_candle.is_bearish() and \
                  (latest_candle.high - max(latest_candle.open, latest_candle.close)) <= 0.1 * (latest_candle.high - latest_candle.low) and \
                  (min(latest_candle.open, latest_candle.close) - latest_candle.low) >= 2 * (latest_candle.high - max(latest_candle.open, latest_candle.close)) and \
                  latest_candle.is_bullish():
                 logging.info("Detected Hammer pattern.")
-                return f"BUY Signal (Hammer) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+                return f"BUY Signal (Hammer) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
             # Shooting Star (Bearish Reversal)
             elif len(self.candlestick_history) >= 3 and prev_candle.is_bullish() and \
                  (max(latest_candle.open, latest_candle.close) - latest_candle.low) <= 0.1 * (latest_candle.high - latest_candle.low) and \
                  (latest_candle.high - min(latest_candle.open, latest_candle.close)) >= 2 * (max(latest_candle.open, latest_candle.close) - latest_candle.low) and \
                  latest_candle.is_bearish():
                 logging.info("Detected Shooting Star pattern.")
-                return f"SELL Signal (Shooting Star) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+                return f"SELL Signal (Shooting Star) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
                 # return f"SELL Signal (Bearish Engulfing) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
 
         # --- Momentum Checker (RSI) ---
@@ -211,11 +211,11 @@ class TradingBot:
 
         # Check for BUY signal
         if self._check_for_buy_signal(latest_candle, df_history, current_rsi, current_adx, buyer_pressure, seller_pressure):
-            signal_message = f"BUY Signal (High Probability) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+            signal_message = f"BUY Signal (High Probability) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
 
         # Check for SELL signal
         elif self._check_for_sell_signal(latest_candle, df_history, current_rsi, current_adx, buyer_pressure, seller_pressure):
-            signal_message = f"SELL Signal (High Probability) on {latest_candle.timestamp.strftime(\"%H:%M:%S\")} for 1-minute expiry!"
+            signal_message = f"SELL Signal (High Probability) on {latest_candle.timestamp.strftime('%H:%M:%S')} for 1-minute expiry!"
 
         return signal_message
 
@@ -289,4 +289,3 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logging.info("Bot stopped by user.")
-
